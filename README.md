@@ -6,7 +6,7 @@
 비트열 난수(bitstream)를 생성하고,
 해당 비트열이 암호학적 난수로서 적절한지 NIST SP 800-22 통계 테스트를 통해 검증하는 것을 목표로 하였습니다.
 
-기존의 의사난수(PRNG)가 아닌,
+기존의 의사난수 생성기(PRNG: Pseudo-Random Number Generator)가 아닌,
 물리적 환경 변화에 기반한 엔트로피 소스를 활용한 난수 생성 가능성을 실험적으로 분석하였습니다.
 
 ## 연구 목적
@@ -41,13 +41,13 @@
 
 📌 조도 센서 (BH1750)
 - 연속 조도 측정값을 XOR 방식으로 차분
-- LSB(최하위 비트) 추출
+- LSB(LSB:Least Significant Bit,최하위 비트) 추출
 - 출력 형식: L: 0, L: 1
 <img width="281" height="51" alt="Image" src="https://github.com/user-attachments/assets/48f09819-56fb-4546-a568-5b121308943f" />
 
 📌 온도 센서 (LM35)
 - ADC 값 변화 기반 XOR 차분
-- LSB 추출
+- LSB(최하위 비트) 추출
 - 출력 형식: T:0, T:1
 <img width="281" height="51" alt="Image" src="https://github.com/user-attachments/assets/91f420f5-b7ec-4b82-bbf7-63782cdbc209" />
 
@@ -78,13 +78,19 @@
 
 ✔ 수행 테스트 (총 7종)
 - Frequency Test
+> - 전체 비트에서 ‘1’ 비율이 0.5에서 벗어나는지(전역 편향) 확인
 - Block Frequency Test
+> - 비트를 일정 길이 M로 끊어 블록별 ‘1’ 비율의 편차(지역 편향) 점검
 - Runs Test
+> - 0/1이 번갈아 나타나는 런(연속 구간)의 개수/길이가 정상 범위인지 점검.
 - Longest Run of Ones Test
+> - 블록 안에서 가장 긴 1의 런 길이가 과도하게 길거나 짧은지 확인.
 - Discrete Fourier Transform Test
+> - 스펙트럼에 두드러진 주기 성분이 있는지(주기적 규칙성) 검사
 - Approximate Entropy Test
+> - 길이 m, m+1 패턴의 다양성 차이로 반복성/규칙성을 측정
 - Serial Test
-
+> - 길이 m(그리고 m−1) 모든 패턴의 출현 빈도가 균일한지 평가
 
 ✔ 설정
 - Bitstream 길이: 약 1,100,000 bits
@@ -93,14 +99,14 @@
 
 ## 프로젝트 결론
 ### 실험 결과 요약
-- 센서별 비트열에서 테스트별 P-value 분포 차이 확인
+- 센서별 비트열에서 테스트별 편향 차이 확인
 - 일부 테스트에서 실패 발생 →
 센서 데이터 특성상 저주파 편향 및 상관성 영향으로 판단
 - 동일 조건에서 센서 종류에 따라 난수 품질이 달라짐을 확인
 
 ### 분석 및 한계
 - 센서 데이터는 환경 변화에 민감하여 엔트로피 변동성이 큼
-- 단순 LSB 추출 방식은 상관성 제거에 한계 존재
+- 단순 LSB(최하위 비트) 추출 방식은 상관성 제거에 한계 존재
 - 후처리(whitening) 없이 바로 테스트한 점이 한계
 
 ### 향후 개선 방향
