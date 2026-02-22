@@ -31,6 +31,9 @@
 - WSL Ubuntu 24.04
 - NIST Statistical Test Suite (STS) v2.1.2
 
+> - STS = Statistical Test Suite
+> - 여러 개의 통계적 난수 테스트들을 묶어놓은 “테스트 모음 프로그램”
+
 ## 시스템 구조
 <img width="1046" height="701" alt="Image" src="https://github.com/user-attachments/assets/087a0824-cd3c-46e2-9a42-b9239c5be9d3" />
 센서 데이터 → 비트 추출 → PC 저장 → NIST 검증의 단일 파이프라인 구성
